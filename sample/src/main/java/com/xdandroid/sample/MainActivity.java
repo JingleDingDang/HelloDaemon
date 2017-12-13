@@ -1,10 +1,17 @@
 package com.xdandroid.sample;
 
-import android.app.*;
-import android.os.*;
-import android.view.*;
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
-import com.xdandroid.hellodaemon.*;
+import com.xdandroid.hellodaemon.DaemonEnv;
+import com.xdandroid.hellodaemon.IntentPage;
+import com.xdandroid.hellodaemon.IntentWrapper;
+import com.xdandroid.hellodaemon.IntentWrapperPager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends Activity {
 
@@ -24,6 +31,17 @@ public class MainActivity extends Activity {
                 break;
             case R.id.btn_stop:
                 TraceServiceImpl.stopService();
+                break;
+
+            case R.id.btn_guide:
+//                MobileInfoUtils.jumpStartInterface(this);
+
+                List<IntentPage> intentPagers = IntentWrapperPager.whiteListMatters(this, "派单服务的持续运行");
+                if (intentPagers.size() == 0) {
+                    Toast.makeText(this, "没有能打开的页面", Toast.LENGTH_LONG).show();
+                } else {
+                    WhiteListGuideActivity.start(this, new ArrayList<IntentPage>(intentPagers));
+                }
                 break;
         }
     }
